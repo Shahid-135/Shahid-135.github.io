@@ -1,195 +1,444 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CAFuNet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Project Title | Paper Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-      line-height: 1.6;
-      color: #222;
+    :root {
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --border: #e8e4de;
+      --text: #1a1816;
+      --muted: #6b6560;
+      --accent: #2563eb;
+      --accent2: #7c3aed;
+      --tag-bg: #f0f4ff;
+      --code-bg: #f5f4f2;
     }
 
-    h1, h2 {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,249,247,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    nav .brand { font-family: 'Lora', serif; font-weight: 600; letter-spacing: -0.02em; }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
       text-align: center;
+    }
+
+    .venue-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid #c7d7ff;
+      margin-bottom: 1.5rem;
     }
 
     h1 {
-      font-size: 42px;
-      margin-bottom: 5px;
+      font-family: 'Lora', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      color: var(--text);
     }
 
+    /* ── AUTHORS ── */
     .authors {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.25rem 0.75rem;
+      font-size: 0.96rem;
+      margin-bottom: 0.5rem;
     }
-
-    .links {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .links a {
-      margin: 0 10px;
+    .authors a {
+      color: var(--accent);
       text-decoration: none;
       font-weight: 500;
-      color: #0366d6;
+    }
+    .authors a:hover { text-decoration: underline; }
+    .equal { font-size: 0.75rem; color: var(--muted); vertical-align: super; }
+
+    .affiliations {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
     }
 
-    .section {
-      margin-top: 60px;
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 3rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.12); }
+    .btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .btn.primary:hover { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+
+    /* ── DIVIDER ── */
+    hr.section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 820px;
+      margin: 0 auto 3rem;
     }
 
-    img {
+    /* ── CONTENT SECTIONS ── */
+    section {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem 3.5rem;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    p { color: #3a3733; margin-bottom: 1rem; font-size: 0.975rem; }
+
+    /* ── TEASER IMAGE ── */
+    .teaser {
+      max-width: 820px;
+      margin: 0 auto 3rem;
+      padding: 0 2rem;
+    }
+    .teaser img {
       width: 100%;
       border-radius: 12px;
-      margin-top: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
     }
-
-    .caption {
+    .teaser figcaption {
       text-align: center;
-      font-size: 14px;
-      color: gray;
-      margin-top: 5px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      font-style: italic;
     }
 
-    .box {
-      background: #f6f8fa;
-      padding: 15px;
+    /* ── FIGURES GRID ── */
+    .figures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 600px) { .figures-grid { grid-template-columns: 1fr; } }
+    .figure-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      margin-top: 20px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
     }
+    .figure-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .figure-card img { width: 100%; display: block; background: #eee; min-height: 160px; object-fit: cover; }
+    .figure-card .caption { padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
 
-    table {
+    /* Placeholder image style */
+    .img-placeholder {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+      min-height: 180px;
+      background: linear-gradient(135deg, #e8e4de 0%, #d4cfc8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    table, th, td {
-      border: 1px solid #ddd;
-    }
+    /* ── RESULTS TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    thead tr { background: #f5f4f2; }
+    th, td { padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+    tr:hover td { background: #faf9f7; }
+    td.best { font-weight: 700; color: var(--accent); }
 
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f6f8fa;
-    }
-
-    .best {
-      font-weight: bold;
-    }
-
-    pre {
-      background: #f6f8fa;
-      padding: 15px;
+    /* ── BIBTEX ── */
+    .bibtex-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
       border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #4a4540;
       overflow-x: auto;
+      position: relative;
     }
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-    .footer {
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
       text-align: center;
-      margin-top: 60px;
-      color: gray;
-      font-size: 14px;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { animation: fadeUp 0.6s ease both; }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-
 <body>
 
-<h1>CAFuNet</h1>
-<p class="authors">
-Context-Aligned Fusion Network for Multimodal Crisis Informatics
-</p>
+<!-- ── NAVIGATION ── -->
+<nav>
+  <span class="brand">YourProject</span>
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#bibtex">BibTeX</a></li>
+  </ul>
+</nav>
 
-<div class="links">
-  <a href="#">📄 Paper</a>
-  <a href="https://github.com/Shahid-135/CAFUNet">💻 Code</a>
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="venue-tag fade-in">ACL 2025 · Main Conference</div>
+  <h1 class="fade-in">Your Project Title: A Subtitle That Explains the Work</h1>
+
+  <div class="authors fade-in">
+    <span><a href="#">Author One</a><sup class="equal">♦1</sup>,</span>
+    <span><a href="#">Author Two</a><sup class="equal">♦2</sup>,</span>
+    <span><a href="#">Author Three</a><sup>3</sup>,</span>
+    <span><a href="#">Author Four</a><sup>4</sup></span>
+  </div>
+
+  <div class="affiliations fade-in">
+    <sup>♦</sup>Equal Contribution &nbsp;·&nbsp;
+    <sup>1</sup>Your University &nbsp;·&nbsp;
+    <sup>2</sup>Research Lab &nbsp;·&nbsp;
+    <sup>3</sup>Institute &nbsp;·&nbsp;
+    <sup>4</sup>Company
+  </div>
+
+  <div class="btn-row fade-in">
+    <a class="btn primary" href="#">📄 Paper</a>
+    <a class="btn" href="#">💻 Code</a>
+    <a class="btn" href="#">🤗 Dataset</a>
+    <a class="btn" href="#">📖 arXiv</a>
+    <a class="btn" href="#">🏆 Leaderboard</a>
+  </div>
 </div>
 
-<!-- Teaser -->
-<img src="assets/teaser.png">
-<p class="caption">Overview of CAFuNet</p>
+<!-- ── TEASER IMAGE ── -->
+<figure class="teaser">
+  <div class="img-placeholder" style="min-height:280px; border-radius:12px; border:1px solid var(--border);">
+    [ Replace with your teaser image: assets/teaser.png ]
+  </div>
+  <figcaption>Figure 1. Overview of our approach. Replace this with your teaser image and caption.</figcaption>
+</figure>
 
-<div class="section">
-<h2>Abstract</h2>
-<p>
-Multimodal social media data during crisis events is noisy and weakly aligned. 
-CAFuNet introduces topic-guided conditioning, context-gated calibration, and 
-projected bilinear fusion to improve semantic alignment and robustness.
-</p>
-</div>
+<hr class="section-divider" />
 
-<div class="section">
-<h2>Method Overview</h2>
+<!-- ── ABSTRACT ── -->
+<section id="abstract">
+  <h2>Abstract</h2>
+  <p>
+    Replace this with your paper abstract. Provide a concise summary of the problem you are solving,
+    your approach, key findings, and the contributions of this work. Aim for 150–250 words that 
+    clearly communicate the impact of the research to a broad audience.
+  </p>
+  <p>
+    You can add multiple paragraphs. Highlight key numbers, datasets, or benchmarks that make your
+    work stand out. This is often the first thing readers will engage with.
+  </p>
+</section>
 
-<img src="assets/architecture.png">
-<p class="caption">Architecture of CAFuNet</p>
+<hr class="section-divider" />
 
-<div class="box">
-<b>Key components:</b>
-<ul>
-<li>Topic-Guided Prompting (TGP)</li>
-<li>Context-Gated Calibration (CGC)</li>
-<li>Projected Bilinear Block Fusion (PBBF)</li>
-</ul>
-</div>
+<!-- ── METHOD / FIGURES ── -->
+<section id="method">
+  <h2>Method</h2>
+  <p>Describe your method or approach here. Add images below to visually illustrate your pipeline, model architecture, or key ideas.</p>
 
-</div>
+  <div class="figures-grid">
+    <div class="figure-card">
+      <div class="img-placeholder">[ assets/architecture.png ]</div>
+      <div class="caption">Figure 2. Model architecture overview.</div>
+    </div>
+    <div class="figure-card">
+      <div class="img-placeholder">[ assets/figure2.png ]</div>
+      <div class="caption">Figure 3. Key result visualization.</div>
+    </div>
+    <div class="figure-card">
+      <div class="img-placeholder">[ assets/figure3.png ]</div>
+      <div class="caption">Figure 4. Analysis plot.</div>
+    </div>
+    <div class="figure-card">
+      <div class="img-placeholder">[ assets/figure4.png ]</div>
+      <div class="caption">Figure 5. Additional result.</div>
+    </div>
+  </div>
+</section>
 
-<div class="section">
-<h2>Results</h2>
+<hr class="section-divider" />
 
-<table>
-<tr>
-  <th>Dataset</th>
-  <th>Baseline</th>
-  <th>CAFuNet</th>
-  <th>Improvement</th>
-</tr>
-<tr>
-  <td>CrisisMMD</td>
-  <td>72.31</td>
-  <td class="best">75.58</td>
-  <td>+3.27</td>
-</tr>
-<tr>
-  <td>TSEqD</td>
-  <td>74.12</td>
-  <td class="best">76.73</td>
-  <td>+2.61</td>
-</tr>
-</table>
+<!-- ── RESULTS ── -->
+<section id="results">
+  <h2>Results</h2>
+  <p>Summarize your main quantitative results below. Replace the table with your actual benchmark numbers.</p>
 
-<div class="box">
-CAFuNet consistently improves macro-F1 across datasets.
-</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Metric A ↑</th>
+          <th>Metric B ↑</th>
+          <th>Metric C ↓</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Baseline 1</td>
+          <td>72.4</td>
+          <td>68.1</td>
+          <td>4.2</td>
+        </tr>
+        <tr>
+          <td>Baseline 2</td>
+          <td>75.8</td>
+          <td>71.3</td>
+          <td>3.9</td>
+        </tr>
+        <tr>
+          <td><strong>Ours</strong></td>
+          <td class="best">82.3</td>
+          <td class="best">79.6</td>
+          <td class="best">2.1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-</div>
+<hr class="section-divider" />
 
-<div class="section">
-<h2>Citation</h2>
-<pre>
-@inproceedings{cafunet_acl2026,
-  title={CAFuNet: Context-Aligned Fusion Network for Multimodal Crisis Informatics},
-  year={2026}
-}
-</pre>
-</div>
+<!-- ── BIBTEX ── -->
+<section id="bibtex">
+  <h2>BibTeX</h2>
+  <div class="bibtex-block" id="bibtex-text">
+    <button class="copy-btn" onclick="copyBibtex()">Copy</button>
+@misc{yourname2025yourproject,
+  title     = {Your Project Title: A Subtitle That Explains the Work},
+  author    = {Author One and Author Two and Author Three and Author Four},
+  year      = {2025},
+  eprint    = {2410.XXXXX},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url       = {https://arxiv.org/abs/2410.XXXXX},
+}</div>
+</section>
 
-<div class="footer">
-© 2026 CAFuNet Project
-</div>
+<!-- ── FOOTER ── -->
+<footer>
+  Built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
+  Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+</footer>
 
+<script>
+  function copyBibtex() {
+    const text = document.getElementById('bibtex-text').innerText.replace('Copy','').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
 </body>
 </html>
