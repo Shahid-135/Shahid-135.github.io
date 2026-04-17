@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Project Title | Paper Page</title>
+  <title>CAFuNet – Context-Aligned Fusion Network for Multimodal Crisis Informatics</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -13,401 +13,349 @@
       --border: #e8e4de;
       --text: #1a1816;
       --muted: #6b6560;
-      --accent: #2563eb;
-      --accent2: #7c3aed;
-      --tag-bg: #f0f4ff;
+      --accent: #1a56c4;
+      --tag-bg: #eff4ff;
       --code-bg: #f5f4f2;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(250,249,247,0.92);
-      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,249,247,0.93); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 2rem;
-      font-size: 0.875rem;
-      font-weight: 500;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.7rem 2.5rem; font-size: 0.875rem; font-weight: 500;
     }
-    nav .brand { font-family: 'Lora', serif; font-weight: 600; letter-spacing: -0.02em; }
-    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav .brand { font-family: 'Lora', serif; font-weight: 600; font-size: 1rem; }
+    nav ul { list-style: none; display: flex; gap: 1.75rem; }
     nav a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
     nav a:hover { color: var(--accent); }
 
-    /* ── HERO ── */
-    .hero {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 5rem 2rem 3rem;
-      text-align: center;
-    }
-
+    .hero { max-width: 860px; margin: 0 auto; padding: 5rem 2rem 2.5rem; text-align: center; }
     .venue-tag {
-      display: inline-block;
-      background: var(--tag-bg);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid #c7d7ff;
-      margin-bottom: 1.5rem;
+      display: inline-block; background: var(--tag-bg); color: var(--accent);
+      font-size: 0.76rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.28rem 0.9rem; border-radius: 999px; border: 1px solid #c3d4f7; margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease both;
     }
-
     h1 {
-      font-family: 'Lora', serif;
-      font-size: clamp(1.9rem, 4vw, 2.8rem);
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-      margin-bottom: 2rem;
-      color: var(--text);
+      font-family: 'Lora', serif; font-size: clamp(1.8rem, 3.6vw, 2.65rem);
+      line-height: 1.22; letter-spacing: -0.02em; margin-bottom: 2rem;
+      animation: fadeUp 0.55s 0.05s ease both;
     }
-
-    /* ── AUTHORS ── */
+    h1 .model { color: var(--accent); }
     .authors {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.25rem 0.75rem;
-      font-size: 0.96rem;
-      margin-bottom: 0.5rem;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 0.2rem 0.6rem; font-size: 0.95rem; margin-bottom: 0.5rem;
+      animation: fadeUp 0.55s 0.1s ease both;
     }
-    .authors a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .authors a { color: var(--accent); text-decoration: none; font-weight: 500; }
     .authors a:hover { text-decoration: underline; }
-    .equal { font-size: 0.75rem; color: var(--muted); vertical-align: super; }
-
+    sup.eq { font-size: 0.7rem; color: var(--muted); }
     .affiliations {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-      line-height: 1.8;
+      font-size: 0.82rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 2;
+      animation: fadeUp 0.55s 0.15s ease both;
     }
-
-    /* ── BUTTONS ── */
     .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.6rem;
-      margin-bottom: 3rem;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 0.55rem; margin-bottom: 3.5rem;
+      animation: fadeUp 0.55s 0.2s ease both;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.55rem 1.2rem;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1.15rem; border-radius: 8px; font-size: 0.875rem; font-weight: 500;
+      text-decoration: none; transition: all 0.2s;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
     }
-    .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.12); }
+    .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,86,196,0.13); }
     .btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .btn.primary:hover { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+    .btn.primary:hover { background: #1244a8; border-color: #1244a8; color: white; }
 
-    /* ── DIVIDER ── */
-    hr.section-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      max-width: 820px;
-      margin: 0 auto 3rem;
-    }
+    hr.div { border: none; border-top: 1px solid var(--border); max-width: 860px; margin: 0 auto 3rem; }
 
-    /* ── CONTENT SECTIONS ── */
-    section {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 0 2rem 3.5rem;
-    }
+    section { max-width: 860px; margin: 0 auto; padding: 0 2rem 3.5rem; }
+    h2 { font-family: 'Lora', serif; font-size: 1.5rem; letter-spacing: -0.01em; margin-bottom: 1rem; }
+    h3 { font-size: 1.05rem; font-weight: 600; margin: 1.75rem 0 0.6rem; color: var(--text); }
+    p { color: #3a3733; margin-bottom: 1rem; font-size: 0.965rem; }
 
-    h2 {
-      font-family: 'Lora', serif;
-      font-size: 1.5rem;
-      letter-spacing: -0.01em;
-      margin-bottom: 1rem;
-      color: var(--text);
+    .teaser { max-width: 860px; margin: 0 auto 3rem; padding: 0 2rem; }
+    .placeholder {
+      width: 100%; min-height: 260px; background: linear-gradient(135deg, #eef2ff 0%, #dde6f9 100%);
+      border-radius: 12px; border: 1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; gap: 0.5rem;
     }
+    figcaption { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; font-style: italic; }
 
-    p { color: #3a3733; margin-bottom: 1rem; font-size: 0.975rem; }
+    .components { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.1rem; margin: 1.5rem 0; }
+    @media (max-width: 640px) { .components { grid-template-columns: 1fr; } }
+    .comp-card {
+      background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 1.25rem 1.1rem; transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .comp-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); border-color: #c3d4f7; }
+    .comp-card .num { font-family: 'Lora', serif; font-size: 1.6rem; color: #c3d4f7; font-weight: 600; margin-bottom: 0.4rem; }
+    .comp-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--accent); }
+    .comp-card p { font-size: 0.82rem; margin: 0; }
 
-    /* ── TEASER IMAGE ── */
-    .teaser {
-      max-width: 820px;
-      margin: 0 auto 3rem;
-      padding: 0 2rem;
-    }
-    .teaser img {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-    }
-    .teaser figcaption {
-      text-align: center;
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 0.75rem;
-      font-style: italic;
-    }
+    .fig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.5rem 0; }
+    @media (max-width: 600px) { .fig-row { grid-template-columns: 1fr; } }
+    .fig-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .fig-card img { width: 100%; display: block; object-fit: cover; }
+    .fig-card .ph { min-height: 150px; background: linear-gradient(135deg,#eef2ff,#dde6f9); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.78rem; font-family:'JetBrains Mono',monospace; }
+    .fig-card .cap { padding: 0.65rem 1rem; font-size: 0.78rem; color: var(--muted); font-style: italic; }
 
-    /* ── FIGURES GRID ── */
-    .figures-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin: 1.5rem 0;
-    }
-    @media (max-width: 600px) { .figures-grid { grid-template-columns: 1fr; } }
-    .figure-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: box-shadow 0.2s;
-    }
-    .figure-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .figure-card img { width: 100%; display: block; background: #eee; min-height: 160px; object-fit: cover; }
-    .figure-card .caption { padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
+    .stats { display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 1.5rem 0; }
+    .stat { flex: 1; min-width: 130px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
+    .stat .val { font-family: 'Lora', serif; font-size: 1.9rem; font-weight: 600; color: var(--accent); }
+    .stat .label { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
 
-    /* Placeholder image style */
-    .img-placeholder {
-      width: 100%;
-      min-height: 180px;
-      background: linear-gradient(135deg, #e8e4de 0%, #d4cfc8 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
+    .table-wrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--border); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.81rem; }
+    thead tr { background: #f0f4ff; }
+    th { padding: 0.55rem 0.8rem; text-align: center; font-weight: 600; font-size: 0.73rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th.left, td.left { text-align: left; }
+    td { padding: 0.48rem 0.8rem; text-align: center; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr.ours td { background: #eff4ff; font-weight: 600; }
+    td.best { color: var(--accent); }
+    tr.sh td { background: #faf9f7; font-style: italic; color: var(--muted); font-size: 0.77rem; padding: 0.28rem 0.8rem; }
+    .tcap { font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 0.5rem; font-style: italic; }
 
-    /* ── RESULTS TABLE ── */
-    .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-    thead tr { background: #f5f4f2; }
-    th, td { padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-    th { font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
-    tr:hover td { background: #faf9f7; }
-    td.best { font-weight: 700; color: var(--accent); }
-
-    /* ── BIBTEX ── */
     .bibtex-block {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      line-height: 1.8;
-      color: #4a4540;
-      overflow-x: auto;
-      position: relative;
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.25rem 1.5rem 1.25rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.79rem; line-height: 1.85;
+      color: #4a4540; overflow-x: auto; position: relative; white-space: pre;
     }
     .copy-btn {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.75rem;
-      cursor: pointer;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.2s;
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.25rem 0.65rem; font-size: 0.74rem; cursor: pointer; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; transition: all 0.2s;
     }
     .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; font-size: 0.79rem; color: var(--muted); }
     footer a { color: var(--accent); text-decoration: none; }
 
-    /* ── ANIMATIONS ── */
-    .fade-in { animation: fadeUp 0.6s ease both; }
-    .fade-in:nth-child(2) { animation-delay: 0.1s; }
-    .fade-in:nth-child(3) { animation-delay: 0.2s; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ── -->
 <nav>
-  <span class="brand">YourProject</span>
+  <span class="brand">CAFuNet</span>
   <ul>
     <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#method">Method</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#bibtex">BibTeX</a></li>
   </ul>
 </nav>
 
-<!-- ── HERO ── -->
 <div class="hero">
-  <div class="venue-tag fade-in">ACL 2025 · Main Conference</div>
-  <h1 class="fade-in">Your Project Title: A Subtitle That Explains the Work</h1>
+  <div class="venue-tag">ACL 2025 · Findings</div>
 
-  <div class="authors fade-in">
-    <span><a href="#">Author One</a><sup class="equal">♦1</sup>,</span>
-    <span><a href="#">Author Two</a><sup class="equal">♦2</sup>,</span>
-    <span><a href="#">Author Three</a><sup>3</sup>,</span>
-    <span><a href="#">Author Four</a><sup>4</sup></span>
+  <h1>
+    <span class="model">CAFuNet</span>: Context-Aligned Topic Conditioning<br>
+    and Calibrated Fusion for Multimodal Crisis Informatics
+  </h1>
+
+  <div class="authors">
+    <span><a href="#">Shahid Shafi Dar</a><sup class="eq">1</sup>,</span>
+    <span><a href="#">Mihir Kanchan Karandikar</a><sup class="eq">1</sup>,</span>
+    <span><a href="#">Chandravardhan Singh Raghaw</a><sup class="eq">1</sup>,</span>
+    <span><a href="#">Pranjal Pandey</a><sup class="eq">2</sup>,</span>
+    <span><a href="#">Nagendra Kumar</a><sup class="eq">1</sup></span>
   </div>
 
-  <div class="affiliations fade-in">
-    <sup>♦</sup>Equal Contribution &nbsp;·&nbsp;
-    <sup>1</sup>Your University &nbsp;·&nbsp;
-    <sup>2</sup>Research Lab &nbsp;·&nbsp;
-    <sup>3</sup>Institute &nbsp;·&nbsp;
-    <sup>4</sup>Company
+  <div class="affiliations">
+    <sup>1</sup>Indian Institute of Technology Indore, India &nbsp;·&nbsp;
+    <sup>2</sup>Indian Institute of Information Technology Bhagalpur, India<br>
+    <code style="font-family:'JetBrains Mono',monospace;font-size:0.77rem;">phd2201201004@iiti.ac.in &nbsp;·&nbsp; nagendra@iiti.ac.in</code>
   </div>
 
-  <div class="btn-row fade-in">
+  <div class="btn-row">
     <a class="btn primary" href="#">📄 Paper</a>
-    <a class="btn" href="#">💻 Code</a>
-    <a class="btn" href="#">🤗 Dataset</a>
+    <a class="btn" href="https://github.com/Shahid-135/Shahid-135.github.io" target="_blank">💻 Code</a>
+    <a class="btn" href="#">🤗 CrisisMMD Dataset</a>
     <a class="btn" href="#">📖 arXiv</a>
-    <a class="btn" href="#">🏆 Leaderboard</a>
   </div>
 </div>
 
-<!-- ── TEASER IMAGE ── -->
+<!-- TEASER -->
 <figure class="teaser">
-  <div class="img-placeholder" style="min-height:280px; border-radius:12px; border:1px solid var(--border);">
-    [ Replace with your teaser image: assets/teaser.png ]
+  <!-- Once you have the file, replace the div below with: <img src="assets/architecture.png" alt="CAFuNet Architecture" style="width:100%;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 30px rgba(0,0,0,0.07)"> -->
+  <div class="placeholder" style="min-height:300px;">
+    <svg width="44" height="44" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    Replace with <strong>assets/architecture.png</strong>
   </div>
-  <figcaption>Figure 1. Overview of our approach. Replace this with your teaser image and caption.</figcaption>
+  <figcaption>Figure 1. Overview of CAFuNet. Multimodal inputs are processed through parallel encoder layers conditioned by corpus-induced topics, calibrated via CGC, and fused with PBBF for high-order cross-modal interaction.</figcaption>
 </figure>
 
-<hr class="section-divider" />
+<hr class="div" />
 
-<!-- ── ABSTRACT ── -->
+<!-- ABSTRACT -->
 <section id="abstract">
   <h2>Abstract</h2>
   <p>
-    Replace this with your paper abstract. Provide a concise summary of the problem you are solving,
-    your approach, key findings, and the contributions of this work. Aim for 150–250 words that 
-    clearly communicate the impact of the research to a broad audience.
+    Multimodal social media data during crisis events presents significant challenges for classification due to noisy visual content, short or ambiguous text, and weak alignment between modalities. Existing approaches rely on generic fusion strategies or task-agnostic alignment mechanisms that do not account for domain-specific semantic structure or feature reliability.
   </p>
   <p>
-    You can add multiple paragraphs. Highlight key numbers, datasets, or benchmarks that make your
-    work stand out. This is often the first thing readers will engage with.
+    We propose <strong>CAFuNet</strong> (<strong>C</strong>ontext-<strong>A</strong>ligned <strong>Fu</strong>sion <strong>Net</strong>work), designed for humanitarian event analysis. CAFuNet introduces: (i) a <em>dual topic-conditioning mechanism</em> injecting corpus-induced topic representations into both visual and textual encoders, (ii) a <em>Context-Gated Calibration (CGC)</em> module that modulates feature magnitudes based on contextual consistency, and (iii) a <em>Projected Bilinear Block Fusion (PBBF)</em> head capturing low-rank multiplicative cross-modal interactions.
   </p>
+  <p>
+    Experiments on <strong>CrisisMMD</strong> and <strong>TSEqD</strong> show macro-F1 gains of <strong>+4.35</strong> and <strong>+2.56</strong> points over strong baselines, and CAFuNet surpasses zero-shot Gemini 2.0 Flash by over <strong>+28.75 F1 points</strong>.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><div class="val">90.32%</div><div class="label">Macro-F1 · CrisisMMD</div></div>
+    <div class="stat"><div class="val">80.57%</div><div class="label">WF1 · TSEqD</div></div>
+    <div class="stat"><div class="val">+4.35</div><div class="label">F1 gain over best baseline</div></div>
+    <div class="stat"><div class="val">~22ms</div><div class="label">Inference latency · single GPU</div></div>
+  </div>
 </section>
 
-<hr class="section-divider" />
+<hr class="div" />
 
-<!-- ── METHOD / FIGURES ── -->
+<!-- METHOD -->
 <section id="method">
   <h2>Method</h2>
-  <p>Describe your method or approach here. Add images below to visually illustrate your pipeline, model architecture, or key ideas.</p>
+  <p>
+    CAFuNet addresses the <em>semantic reliability gap</em> — where one modality provides critical evidence while the other introduces noise or contradiction — through three synergistic modules applied before and during fusion.
+  </p>
 
-  <div class="figures-grid">
-    <div class="figure-card">
-      <div class="img-placeholder">[ assets/architecture.png ]</div>
-      <div class="caption">Figure 2. Model architecture overview.</div>
+  <div class="components">
+    <div class="comp-card">
+      <div class="num">01</div>
+      <h4>Dual-Topic Conditioning</h4>
+      <p>Topics are induced from the training corpus via BERTopic and curated by NPMI coherence. Learnable topic embeddings are prepended to both text tokens and visual patch sequences, grounding both encoders in the same domain-specific semantic scaffold from layer one.</p>
     </div>
-    <div class="figure-card">
-      <div class="img-placeholder">[ assets/figure2.png ]</div>
-      <div class="caption">Figure 3. Key result visualization.</div>
+    <div class="comp-card">
+      <div class="num">02</div>
+      <h4>Context-Gated Calibration</h4>
+      <p>A learnable combination of Gaussian, Sigmoid, and Trapezoidal membership functions computes a per-feature gating score. This multiplicatively modulates feature magnitudes — amplifying reliable signals (G &gt; 0) and suppressing noisy ones (G &lt; 0) before fusion.</p>
     </div>
-    <div class="figure-card">
-      <div class="img-placeholder">[ assets/figure3.png ]</div>
-      <div class="caption">Figure 4. Analysis plot.</div>
+    <div class="comp-card">
+      <div class="num">03</div>
+      <h4>Projected Bilinear Block Fusion</h4>
+      <p>B parallel interaction blocks project each modality into a lower-dimensional space and compute element-wise products. Block outputs are concatenated to form a rich fused representation capturing diverse, disentangled cross-modal interactions via efficient low-rank approximation.</p>
     </div>
-    <div class="figure-card">
-      <div class="img-placeholder">[ assets/figure4.png ]</div>
-      <div class="caption">Figure 5. Additional result.</div>
+  </div>
+
+  <h3>Architecture &amp; Analysis Figures</h3>
+  <div class="fig-row">
+    <div class="fig-card">
+      <!-- <img src="assets/architecture.png" alt="Architecture"> -->
+      <div class="ph">assets/architecture.png</div>
+      <div class="cap">Figure 1. Full CAFuNet architecture overview.</div>
+    </div>
+    <div class="fig-card">
+      <!-- <img src="assets/fusion1.png" alt="Fusion comparison"> -->
+      <div class="ph">assets/fusion1.png</div>
+      <div class="cap">Figure 2. Fusion strategy comparison. PBBF (90.32%) outperforms EF, LF, and Cross-Attention.</div>
+    </div>
+    <div class="fig-card">
+      <!-- <img src="assets/concepts.png" alt="Topic sensitivity"> -->
+      <div class="ph">assets/concepts.png</div>
+      <div class="cap">Figure 3. Topic count sensitivity. Performance peaks at N<sub>t</sub> = 10.</div>
+    </div>
+    <div class="fig-card">
+      <!-- <img src="assets/trinket_plot.png" alt="Hyperparameter sensitivity"> -->
+      <div class="ph">assets/trinket_plot.png</div>
+      <div class="cap">Figure 4. Sensitivity to learning rate, batch size, and training epochs.</div>
     </div>
   </div>
 </section>
 
-<hr class="section-divider" />
+<hr class="div" />
 
-<!-- ── RESULTS ── -->
+<!-- RESULTS -->
 <section id="results">
   <h2>Results</h2>
-  <p>Summarize your main quantitative results below. Replace the table with your actual benchmark numbers.</p>
+  <p>CAFuNet sets a new state-of-the-art on both benchmarks, outperforming all specialized multimodal baselines and large general-purpose vision-language models.</p>
 
+  <h3>Comparison with State-of-the-Art Methods</h3>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Model</th>
-          <th>Metric A ↑</th>
-          <th>Metric B ↑</th>
-          <th>Metric C ↓</th>
+          <th class="left" rowspan="2">Category</th>
+          <th class="left" rowspan="2">Method</th>
+          <th colspan="5">CrisisMMD</th>
+          <th colspan="5">TSEqD</th>
+        </tr>
+        <tr>
+          <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+          <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Baseline 1</td>
-          <td>72.4</td>
-          <td>68.1</td>
-          <td>4.2</td>
-        </tr>
-        <tr>
-          <td>Baseline 2</td>
-          <td>75.8</td>
-          <td>71.3</td>
-          <td>3.9</td>
-        </tr>
-        <tr>
-          <td><strong>Ours</strong></td>
-          <td class="best">82.3</td>
-          <td class="best">79.6</td>
-          <td class="best">2.1</td>
+        <tr class="sh"><td colspan="12">Unimodal</td></tr>
+        <tr><td class="left"></td><td class="left">BERT</td><td>81.25</td><td>82.13</td><td>82.72</td><td>80.22</td><td>82.42</td><td>72.97</td><td>73.42</td><td>73.95</td><td>71.18</td><td>73.81</td></tr>
+        <tr><td class="left"></td><td class="left">ResNet</td><td>81.33</td><td>81.29</td><td>81.98</td><td>81.04</td><td>81.63</td><td>72.32</td><td>72.60</td><td>73.33</td><td>70.94</td><td>73.14</td></tr>
+        <tr><td class="left"></td><td class="left">ViT</td><td>81.30</td><td>81.82</td><td>82.92</td><td>79.77</td><td>81.37</td><td>73.42</td><td>72.64</td><td>73.60</td><td>71.24</td><td>73.16</td></tr>
+
+        <tr class="sh"><td colspan="12">Multimodal</td></tr>
+        <tr><td class="left"></td><td class="left">VisualBERT</td><td>84.05</td><td>82.22</td><td>83.56</td><td>81.89</td><td>82.88</td><td>72.80</td><td>73.81</td><td>75.01</td><td>72.46</td><td>74.55</td></tr>
+        <tr><td class="left"></td><td class="left">SCBD</td><td>80.62</td><td>80.77</td><td>80.52</td><td>78.75</td><td>80.64</td><td>71.34</td><td>71.58</td><td>72.89</td><td>72.39</td><td>72.71</td></tr>
+        <tr><td class="left"></td><td class="left">DMCC</td><td>86.00</td><td>86.95</td><td>86.80</td><td>84.93</td><td>86.72</td><td>78.96</td><td>77.47</td><td>77.38</td><td>74.90</td><td>77.45</td></tr>
+        <tr><td class="left"></td><td class="left">CLMC</td><td>86.53</td><td>86.25</td><td>86.21</td><td>85.18</td><td>86.46</td><td>78.73</td><td>78.50</td><td>77.70</td><td>74.86</td><td>77.70</td></tr>
+        <tr><td class="left"></td><td class="left">MIDLC</td><td>87.42</td><td>87.57</td><td>85.51</td><td>85.34</td><td>86.28</td><td>77.36</td><td>77.45</td><td>76.68</td><td>74.79</td><td>77.14</td></tr>
+        <tr><td class="left"></td><td class="left">MMA</td><td>87.63</td><td>86.16</td><td>88.00</td><td>85.21</td><td>87.00</td><td>78.31</td><td>77.76</td><td>77.68</td><td>75.10</td><td>77.92</td></tr>
+
+        <tr class="ours">
+          <td class="left">Proposed</td><td class="left"><strong>CAFuNet (Ours)</strong></td>
+          <td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td>
+          <td class="best">81.17</td><td class="best">80.86</td><td class="best">81.02</td><td class="best">77.66</td><td class="best">80.57</td>
         </tr>
       </tbody>
     </table>
   </div>
+  <p class="tcap">Table 1. All metrics in %. Bold = best. CAFuNet achieves +4.35 mF1 over MMA on CrisisMMD and +2.56 on TSEqD.</p>
+
+  <h3>Ablation Study (CrisisMMD)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="left">Configuration</th><th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">Baseline (Simple Fusion)</td><td>84.15</td><td>84.30</td><td>83.95</td><td>78.08</td><td>84.12</td></tr>
+        <tr><td class="left">+ Topic-Guided Prompting (TGP)</td><td>86.93</td><td>87.11</td><td>86.70</td><td>85.07</td><td>86.90</td></tr>
+        <tr><td class="left">+ TGP + CGC</td><td>88.24</td><td>88.45</td><td>88.01</td><td>86.80</td><td>88.23</td></tr>
+        <tr><td class="left">+ TGP + CGC + PBBF</td><td>89.51</td><td>89.68</td><td>89.25</td><td>88.65</td><td>89.46</td></tr>
+        <tr class="ours">
+          <td class="left"><strong>CAFuNet (Full Model)</strong></td>
+          <td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap">Table 2. Each component contributes incrementally: TGP (+2.78 mF1), CGC (+1.33), PBBF (+1.23), Contrastive Loss (+0.86).</p>
+
+  <h3>Robustness &amp; Efficiency</h3>
+  <p>CAFuNet achieves <strong>90.32 ± 0.20</strong> F1 across five random seeds (vs. MMA: 87.00 ± 0.30), confirming stable, reproducible performance. Under modality degradation (blank images, Gaussian blur, text truncation, up to 20% cross-modal shuffle), CAFuNet consistently leads all baselines and degrades most gracefully — demonstrating that CGC suppresses unreliable signals before fusion rather than propagating noise. At <strong>~150M parameters</strong> and <strong>~22ms</strong> inference (batch 32, single GPU), CAFuNet is far more efficient than autoregressive VLMs (&gt;200ms).</p>
 </section>
 
-<hr class="section-divider" />
+<hr class="div" />
 
-<!-- ── BIBTEX ── -->
+<!-- BIBTEX -->
 <section id="bibtex">
   <h2>BibTeX</h2>
-  <div class="bibtex-block" id="bibtex-text">
-    <button class="copy-btn" onclick="copyBibtex()">Copy</button>
-@misc{yourname2025yourproject,
-  title     = {Your Project Title: A Subtitle That Explains the Work},
-  author    = {Author One and Author Two and Author Three and Author Four},
+  <div class="bibtex-block" id="bib">
+    <button class="copy-btn" onclick="copyBib()">Copy</button>@misc{dar2025cafunet,
+  title     = {Context-Aligned Topic Conditioning and Calibrated Fusion
+               for Multimodal Crisis Informatics},
+  author    = {Shahid Shafi Dar and Mihir Kanchan Karandikar and
+               Chandravardhan Singh Raghaw and Pranjal Pandey and
+               Nagendra Kumar},
   year      = {2025},
   eprint    = {2410.XXXXX},
   archivePrefix = {arXiv},
@@ -416,29 +364,21 @@
 }</div>
 </section>
 
-<!-- ── FOOTER ── -->
 <footer>
   Built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
   Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+  · IIT Indore &amp; IIIT Bhagalpur, 2025.
 </footer>
 
 <script>
-  function copyBibtex() {
-    const text = document.getElementById('bibtex-text').innerText.replace('Copy','').trim();
-    navigator.clipboard.writeText(text).then(() => {
+  function copyBib() {
+    const raw = document.getElementById('bib').innerText.replace('Copy','').trim();
+    navigator.clipboard.writeText(raw).then(() => {
       const btn = document.querySelector('.copy-btn');
       btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy', 2000);
+      setTimeout(() => btn.textContent = 'Copy', 2200);
     });
   }
-
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    });
-  });
 </script>
 </body>
 </html>
