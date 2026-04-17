@@ -1,384 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAFuNet – Context-Aligned Fusion Network for Multimodal Crisis Informatics</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #faf9f7;
-      --surface: #ffffff;
-      --border: #e8e4de;
-      --text: #1a1816;
-      --muted: #6b6560;
-      --accent: #1a56c4;
-      --tag-bg: #eff4ff;
-      --code-bg: #f5f4f2;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CAFuNet – Multimodal Crisis Informatics | ACL 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ── */
+:root{
+  --bg:#f7f6f3;
+  --ink:#18160f;
+  --muted:#706a5e;
+  --border:#dedad2;
+  --surf:#ffffff;
+  --blue:#1847b1;
+  --blue-l:#e8eefb;
+  --red:#b8211a;
+  --gold:#c9960c;
+  --gold-l:#fdf6e3;
+  --green:#166534;
+  --green-l:#dcfce7;
+  --tag:#1847b1;
+  --radius:10px;
+  --shadow:0 4px 24px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);line-height:1.75;overflow-x:hidden;}
 
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250,249,247,0.93); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.7rem 2.5rem; font-size: 0.875rem; font-weight: 500;
-    }
-    nav .brand { font-family: 'Lora', serif; font-weight: 600; font-size: 1rem; }
-    nav ul { list-style: none; display: flex; gap: 1.75rem; }
-    nav a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    nav a:hover { color: var(--accent); }
+/* ── SCROLL PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;z-index:999;transition:width .1s linear;}
 
-    .hero { max-width: 860px; margin: 0 auto; padding: 5rem 2rem 2.5rem; text-align: center; }
-    .venue-tag {
-      display: inline-block; background: var(--tag-bg); color: var(--accent);
-      font-size: 0.76rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
-      padding: 0.28rem 0.9rem; border-radius: 999px; border: 1px solid #c3d4f7; margin-bottom: 1.5rem;
-      animation: fadeUp 0.5s ease both;
-    }
-    h1 {
-      font-family: 'Lora', serif; font-size: clamp(1.8rem, 3.6vw, 2.65rem);
-      line-height: 1.22; letter-spacing: -0.02em; margin-bottom: 2rem;
-      animation: fadeUp 0.55s 0.05s ease both;
-    }
-    h1 .model { color: var(--accent); }
-    .authors {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 0.2rem 0.6rem; font-size: 0.95rem; margin-bottom: 0.5rem;
-      animation: fadeUp 0.55s 0.1s ease both;
-    }
-    .authors a { color: var(--accent); text-decoration: none; font-weight: 500; }
-    .authors a:hover { text-decoration: underline; }
-    sup.eq { font-size: 0.7rem; color: var(--muted); }
-    .affiliations {
-      font-size: 0.82rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 2;
-      animation: fadeUp 0.55s 0.15s ease both;
-    }
-    .btn-row {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 0.55rem; margin-bottom: 3.5rem;
-      animation: fadeUp 0.55s 0.2s ease both;
-    }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.5rem 1.15rem; border-radius: 8px; font-size: 0.875rem; font-weight: 500;
-      text-decoration: none; transition: all 0.2s;
-      border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
-    }
-    .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,86,196,0.13); }
-    .btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .btn.primary:hover { background: #1244a8; border-color: #1244a8; color: white; }
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(247,246,243,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:.65rem 2.5rem;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:var(--blue);}
+nav ul{list-style:none;display:flex;gap:1.6rem;}
+nav a{color:var(--muted);text-decoration:none;font-family:'Source Serif 4',serif;font-size:.85rem;font-weight:400;transition:color .2s;}
+nav a:hover{color:var(--blue);}
+.nav-acl{background:var(--blue);color:#fff!important;padding:.25rem .75rem;border-radius:999px;font-size:.75rem;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;}
 
-    hr.div { border: none; border-top: 1px solid var(--border); max-width: 860px; margin: 0 auto 3rem; }
+/* ── HERO ── */
+.hero{max-width:900px;margin:0 auto;padding:5.5rem 2rem 3rem;text-align:center;position:relative;}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(ellipse at center,rgba(24,71,177,.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+.acl-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold-l);color:var(--gold);border:1px solid #e8d08a;font-size:.73rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.28rem .9rem;border-radius:999px;margin-bottom:1.4rem;font-family:'JetBrains Mono',monospace;animation:rise .6s ease both;}
+.acl-badge svg{width:14px;height:14px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.2vw,3.1rem);line-height:1.18;letter-spacing:-.03em;margin-bottom:1.8rem;position:relative;z-index:1;animation:rise .65s .05s ease both;}
+h1 .model{color:var(--blue);font-style:italic;}
+.authors{display:flex;flex-wrap:wrap;justify-content:center;gap:.15rem .55rem;font-size:.94rem;margin-bottom:.55rem;animation:rise .65s .1s ease both;position:relative;z-index:1;}
+.authors a{color:var(--blue);text-decoration:none;font-weight:600;}
+.authors a:hover{text-decoration:underline;}
+sup.n{font-size:.65rem;color:var(--muted);}
+.affils{font-size:.8rem;color:var(--muted);margin-bottom:2.2rem;line-height:2;animation:rise .65s .15s ease both;position:relative;z-index:1;}
+.affils code{font-family:'JetBrains Mono',monospace;font-size:.74rem;background:var(--blue-l);padding:.1rem .4rem;border-radius:4px;color:var(--blue);}
 
-    section { max-width: 860px; margin: 0 auto; padding: 0 2rem 3.5rem; }
-    h2 { font-family: 'Lora', serif; font-size: 1.5rem; letter-spacing: -0.01em; margin-bottom: 1rem; }
-    h3 { font-size: 1.05rem; font-weight: 600; margin: 1.75rem 0 0.6rem; color: var(--text); }
-    p { color: #3a3733; margin-bottom: 1rem; font-size: 0.965rem; }
+/* ── BUTTONS ── */
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:3.5rem;animation:rise .65s .2s ease both;position:relative;z-index:1;}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem 1.1rem;border-radius:8px;font-size:.84rem;font-weight:600;text-decoration:none;transition:all .22s;border:1.5px solid var(--border);background:var(--surf);color:var(--ink);font-family:'Source Serif 4',serif;cursor:pointer;}
+.btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 18px rgba(24,71,177,.14);}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn.primary:hover{background:#133a96;border-color:#133a96;color:#fff;}
+.btn.red{background:var(--red);color:#fff;border-color:var(--red);}
+.btn.red:hover{background:#961a14;border-color:#961a14;color:#fff;}
 
-    .teaser { max-width: 860px; margin: 0 auto 3rem; padding: 0 2rem; }
-    .placeholder {
-      width: 100%; min-height: 260px; background: linear-gradient(135deg, #eef2ff 0%, #dde6f9 100%);
-      border-radius: 12px; border: 1px solid var(--border);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; gap: 0.5rem;
-    }
-    figcaption { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; font-style: italic; }
+/* ── STAT PILLS ── */
+.stats-row{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem;margin-bottom:3.5rem;animation:rise .65s .25s ease both;}
+.stat-pill{background:var(--surf);border:1.5px solid var(--border);border-radius:12px;padding:.8rem 1.3rem;text-align:center;min-width:130px;transition:all .2s;}
+.stat-pill:hover{border-color:var(--blue);box-shadow:var(--shadow);}
+.stat-pill .v{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--blue);}
+.stat-pill .l{font-size:.73rem;color:var(--muted);margin-top:.1rem;font-family:'JetBrains Mono',monospace;}
 
-    .components { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.1rem; margin: 1.5rem 0; }
-    @media (max-width: 640px) { .components { grid-template-columns: 1fr; } }
-    .comp-card {
-      background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 1.25rem 1.1rem; transition: box-shadow 0.2s, border-color 0.2s;
-    }
-    .comp-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); border-color: #c3d4f7; }
-    .comp-card .num { font-family: 'Lora', serif; font-size: 1.6rem; color: #c3d4f7; font-weight: 600; margin-bottom: 0.4rem; }
-    .comp-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--accent); }
-    .comp-card p { font-size: 0.82rem; margin: 0; }
+/* ── SECTION WRAPPER ── */
+.sec{max-width:900px;margin:0 auto;padding:0 2rem 4rem;}
+hr.div{border:none;border-top:1px solid var(--border);max-width:900px;margin:0 auto 3.5rem;}
+h2{font-family:'Playfair Display',serif;font-size:1.65rem;letter-spacing:-.02em;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
+h2 .num{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);font-weight:400;border:1px solid var(--border);padding:.1rem .45rem;border-radius:5px;}
+h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin:1.8rem 0 .6rem;}
+p{color:#3a3530;margin-bottom:.9rem;font-size:.96rem;}
 
-    .fig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.5rem 0; }
-    @media (max-width: 600px) { .fig-row { grid-template-columns: 1fr; } }
-    .fig-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-    .fig-card img { width: 100%; display: block; object-fit: cover; }
-    .fig-card .ph { min-height: 150px; background: linear-gradient(135deg,#eef2ff,#dde6f9); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.78rem; font-family:'JetBrains Mono',monospace; }
-    .fig-card .cap { padding: 0.65rem 1rem; font-size: 0.78rem; color: var(--muted); font-style: italic; }
+/* ── IMAGE CARDS ── */
+.img-full{width:100%;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);display:block;}
+.img-caption{text-align:center;font-size:.78rem;color:var(--muted);margin-top:.65rem;font-style:italic;}
 
-    .stats { display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 1.5rem 0; }
-    .stat { flex: 1; min-width: 130px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
-    .stat .val { font-family: 'Lora', serif; font-size: 1.9rem; font-weight: 600; color: var(--accent); }
-    .stat .label { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
+/* ── METHOD CARDS ── */
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin:1.5rem 0;}
+@media(max-width:640px){.method-grid{grid-template-columns:1fr;}}
+.mcard{background:var(--surf);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.2rem;transition:all .22s;cursor:default;}
+.mcard:hover{border-color:var(--blue);box-shadow:var(--shadow);transform:translateY(-3px);}
+.mcard .icon{font-size:1.8rem;margin-bottom:.65rem;}
+.mcard .tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--blue);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem;}
+.mcard h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.4rem;}
+.mcard p{font-size:.82rem;color:var(--muted);margin:0;}
 
-    .table-wrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--border); border-radius: 10px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.81rem; }
-    thead tr { background: #f0f4ff; }
-    th { padding: 0.55rem 0.8rem; text-align: center; font-weight: 600; font-size: 0.73rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
-    th.left, td.left { text-align: left; }
-    td { padding: 0.48rem 0.8rem; text-align: center; border-bottom: 1px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-    tr.ours td { background: #eff4ff; font-weight: 600; }
-    td.best { color: var(--accent); }
-    tr.sh td { background: #faf9f7; font-style: italic; color: var(--muted); font-size: 0.77rem; padding: 0.28rem 0.8rem; }
-    .tcap { font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 0.5rem; font-style: italic; }
+/* ── FIGURE ROW ── */
+.fig2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin:1.5rem 0;}
+@media(max-width:580px){.fig2{grid-template-columns:1fr;}}
+.fcard{background:var(--surf);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s;}
+.fcard:hover{box-shadow:var(--shadow);}
+.fcard img{width:100%;display:block;object-fit:cover;}
+.fcard .fcap{padding:.6rem 1rem;font-size:.76rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);}
 
-    .bibtex-block {
-      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
-      padding: 1.25rem 1.5rem 1.25rem 1.25rem;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.79rem; line-height: 1.85;
-      color: #4a4540; overflow-x: auto; position: relative; white-space: pre;
-    }
-    .copy-btn {
-      position: absolute; top: 0.75rem; right: 0.75rem;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-      padding: 0.25rem 0.65rem; font-size: 0.74rem; cursor: pointer; color: var(--muted);
-      font-family: 'DM Sans', sans-serif; transition: all 0.2s;
-    }
-    .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+/* ── TABS (Results) ── */
+.tab-bar{display:flex;gap:.4rem;margin-bottom:1.2rem;border-bottom:2px solid var(--border);}
+.tab-btn{padding:.5rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
 
-    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; font-size: 0.79rem; color: var(--muted); }
-    footer a { color: var(--accent); text-decoration: none; }
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);}
+table{width:100%;border-collapse:collapse;font-size:.8rem;}
+thead tr{background:var(--blue-l);}
+th{padding:.52rem .8rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);border-bottom:1px solid var(--border);white-space:nowrap;}
+th.l,td.l{text-align:left;}
+td{padding:.46rem .8rem;text-align:center;border-bottom:1px solid var(--border);font-size:.8rem;}
+tr:last-child td{border-bottom:none;}
+tr.ours td{background:var(--blue-l);font-weight:700;}
+td.best{color:var(--blue);}
+tr.grp td{background:#faf9f6;font-style:italic;color:var(--muted);font-size:.74rem;padding:.24rem .8rem;font-family:'JetBrains Mono',monospace;}
+.tcap{font-size:.76rem;color:var(--muted);text-align:center;margin-top:.55rem;font-style:italic;}
 
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+/* ── ABLATION VISUAL ── */
+.abl-bars{display:flex;flex-direction:column;gap:.75rem;margin:1.2rem 0;}
+.abl-row{display:grid;grid-template-columns:220px 1fr 60px;align-items:center;gap:.75rem;}
+@media(max-width:580px){.abl-row{grid-template-columns:1fr;gap:.3rem;}}
+.abl-label{font-size:.8rem;color:var(--ink);}
+.abl-bar-wrap{background:#ece9e2;border-radius:999px;height:22px;overflow:hidden;}
+.abl-bar{height:100%;border-radius:999px;display:flex;align-items:center;padding-left:.6rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:600;color:#fff;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.abl-bar.blue{background:linear-gradient(90deg,var(--blue),#3b6de8);}
+.abl-bar.gold{background:linear-gradient(90deg,var(--gold),#e8b020);}
+.abl-val{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;color:var(--blue);}
+
+/* ── LEAVEOUT TABLE ── */
+.leaveout-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin:1.2rem 0;}
+.lo-card{background:var(--surf);border:1.5px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem;transition:all .2s;}
+.lo-card:hover{border-color:var(--blue);box-shadow:var(--shadow);}
+.lo-card .event{font-size:.74rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:.25rem;}
+.lo-card .f1{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--ink);}
+.lo-card .label{font-size:.68rem;color:var(--muted);}
+
+/* ── BIBTEX ── */
+.bib{background:#1e1c18;border-radius:var(--radius);padding:1.4rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.77rem;line-height:1.9;color:#d4cfbe;overflow-x:auto;position:relative;white-space:pre;}
+.bib .kw{color:#7eb8f7;}
+.bib .str{color:#a5d6a7;}
+.bib .val{color:#f5c97a;}
+.copy-btn{position:absolute;top:.75rem;right:.75rem;background:#2e2b24;border:1px solid #3e3a30;border-radius:6px;padding:.25rem .65rem;font-size:.72rem;cursor:pointer;color:#9b9480;font-family:'JetBrains Mono',monospace;transition:all .2s;}
+.copy-btn:hover{color:#7eb8f7;border-color:#7eb8f7;}
+
+/* ── QUALITATIVE ── */
+.qual-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.2rem 0;}
+@media(max-width:580px){.qual-grid{grid-template-columns:1fr;}}
+.qual-card{background:var(--surf);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;}
+.qual-card:hover{box-shadow:var(--shadow);}
+.qual-card img{width:100%;height:160px;object-fit:cover;display:block;}
+.qual-body{padding:.8rem 1rem;}
+.qual-body .gt{font-size:.73rem;font-family:'JetBrains Mono',monospace;font-weight:600;padding:.2rem .5rem;border-radius:5px;display:inline-block;margin-bottom:.4rem;}
+.gt.infra{background:#fee2e2;color:#b91c1c;}
+.gt.rescue{background:#dbeafe;color:#1d4ed8;}
+.gt.other{background:#fef3c7;color:#92400e;}
+.gt.not{background:#dcfce7;color:#166534;}
+.qual-body .result{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem;}
+.result .chip{font-size:.68rem;font-family:'JetBrains Mono',monospace;padding:.15rem .45rem;border-radius:4px;}
+.chip.correct{background:var(--green-l);color:var(--green);}
+.chip.wrong{background:#fee2e2;color:var(--red);}
+.qual-body p{font-size:.78rem;color:var(--muted);margin:0;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);text-align:center;padding:2rem;font-size:.78rem;color:var(--muted);}
+footer a{color:var(--blue);text-decoration:none;}
+
+/* ── ANIMATIONS ── */
+@keyframes rise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+</style>
 </head>
 <body>
 
+<div id="prog"></div>
+
+<!-- NAV -->
 <nav>
-  <span class="brand">CAFuNet</span>
+  <span class="nav-brand">CAFuNet</span>
   <ul>
     <li><a href="#abstract">Abstract</a></li>
     <li><a href="#method">Method</a></li>
     <li><a href="#results">Results</a></li>
+    <li><a href="#qualitative">Analysis</a></li>
     <li><a href="#bibtex">BibTeX</a></li>
+    <li><a href="#" class="nav-acl">ACL 2025</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="venue-tag">ACL 2025 · Findings</div>
+  <div class="acl-badge">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    ACL 2025 · Findings · Bangkok
+  </div>
 
   <h1>
     <span class="model">CAFuNet</span>: Context-Aligned Topic Conditioning<br>
-    and Calibrated Fusion for Multimodal Crisis Informatics
+    and Calibrated Fusion for<br>Multimodal Crisis Informatics
   </h1>
 
   <div class="authors">
-    <span><a href="#">Shahid Shafi Dar</a><sup class="eq">1</sup>,</span>
-    <span><a href="#">Mihir Kanchan Karandikar</a><sup class="eq">1</sup>,</span>
-    <span><a href="#">Chandravardhan Singh Raghaw</a><sup class="eq">1</sup>,</span>
-    <span><a href="#">Pranjal Pandey</a><sup class="eq">2</sup>,</span>
-    <span><a href="#">Nagendra Kumar</a><sup class="eq">1</sup></span>
+    <span><a href="#">Shahid Shafi Dar</a><sup class="n">1</sup>,</span>
+    <span><a href="#">Mihir Kanchan Karandikar</a><sup class="n">1</sup>,</span>
+    <span><a href="#">Chandravardhan Singh Raghaw</a><sup class="n">1</sup>,</span>
+    <span><a href="#">Pranjal Pandey</a><sup class="n">2</sup>,</span>
+    <span><a href="#">Nagendra Kumar</a><sup class="n">1</sup></span>
   </div>
 
-  <div class="affiliations">
+  <div class="affils">
     <sup>1</sup>Indian Institute of Technology Indore, India &nbsp;·&nbsp;
     <sup>2</sup>Indian Institute of Information Technology Bhagalpur, India<br>
-    <code style="font-family:'JetBrains Mono',monospace;font-size:0.77rem;">phd2201201004@iiti.ac.in &nbsp;·&nbsp; nagendra@iiti.ac.in</code>
+    <code>phd2201201004@iiti.ac.in</code> &nbsp;·&nbsp; <code>nagendra@iiti.ac.in</code>
   </div>
 
-  <div class="btn-row">
+  <div class="btns">
     <a class="btn primary" href="#">📄 Paper</a>
+    <a class="btn red" href="#">📖 arXiv</a>
     <a class="btn" href="https://github.com/Shahid-135/Shahid-135.github.io" target="_blank">💻 Code</a>
-    <a class="btn" href="#">🤗 CrisisMMD Dataset</a>
-    <a class="btn" href="#">📖 arXiv</a>
+    <a class="btn" href="#">🤗 CrisisMMD</a>
+    <a class="btn" href="#">🤗 TSEqD</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill"><div class="v">90.32%</div><div class="l">WF1 · CrisisMMD</div></div>
+    <div class="stat-pill"><div class="v">80.57%</div><div class="l">WF1 · TSEqD</div></div>
+    <div class="stat-pill"><div class="v">+4.35</div><div class="l">F1 over SOTA</div></div>
+    <div class="stat-pill"><div class="v">+28.75</div><div class="l">F1 over Gemini</div></div>
+    <div class="stat-pill"><div class="v">~22ms</div><div class="l">Inference latency</div></div>
   </div>
 </div>
 
-<!-- TEASER -->
-<figure class="teaser">
-  <!-- Once you have the file, replace the div below with: <img src="assets/architecture.png" alt="CAFuNet Architecture" style="width:100%;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 30px rgba(0,0,0,0.07)"> -->
-  <div class="placeholder" style="min-height:300px;">
-    <svg width="44" height="44" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-    Replace with <strong>assets/architecture.png</strong>
-  </div>
-  <figcaption>Figure 1. Overview of CAFuNet. Multimodal inputs are processed through parallel encoder layers conditioned by corpus-induced topics, calibrated via CGC, and fused with PBBF for high-order cross-modal interaction.</figcaption>
-</figure>
+<!-- ARCHITECTURE TEASER -->
+<div class="sec reveal" style="padding-bottom:2rem;">
+  <img src="assets/architecture.png" alt="CAFuNet Architecture" class="img-full"/>
+  <p class="img-caption">Figure 1. Overview of the CAFuNet architecture — dual-topic conditioning on both encoders, Context-Gated Calibration for feature reliability, and Projected Bilinear Block Fusion for cross-modal interaction.</p>
+</div>
 
-<hr class="div" />
+<hr class="div"/>
 
 <!-- ABSTRACT -->
-<section id="abstract">
-  <h2>Abstract</h2>
-  <p>
-    Multimodal social media data during crisis events presents significant challenges for classification due to noisy visual content, short or ambiguous text, and weak alignment between modalities. Existing approaches rely on generic fusion strategies or task-agnostic alignment mechanisms that do not account for domain-specific semantic structure or feature reliability.
-  </p>
-  <p>
-    We propose <strong>CAFuNet</strong> (<strong>C</strong>ontext-<strong>A</strong>ligned <strong>Fu</strong>sion <strong>Net</strong>work), designed for humanitarian event analysis. CAFuNet introduces: (i) a <em>dual topic-conditioning mechanism</em> injecting corpus-induced topic representations into both visual and textual encoders, (ii) a <em>Context-Gated Calibration (CGC)</em> module that modulates feature magnitudes based on contextual consistency, and (iii) a <em>Projected Bilinear Block Fusion (PBBF)</em> head capturing low-rank multiplicative cross-modal interactions.
-  </p>
-  <p>
-    Experiments on <strong>CrisisMMD</strong> and <strong>TSEqD</strong> show macro-F1 gains of <strong>+4.35</strong> and <strong>+2.56</strong> points over strong baselines, and CAFuNet surpasses zero-shot Gemini 2.0 Flash by over <strong>+28.75 F1 points</strong>.
-  </p>
-
-  <div class="stats">
-    <div class="stat"><div class="val">90.32%</div><div class="label">Macro-F1 · CrisisMMD</div></div>
-    <div class="stat"><div class="val">80.57%</div><div class="label">WF1 · TSEqD</div></div>
-    <div class="stat"><div class="val">+4.35</div><div class="label">F1 gain over best baseline</div></div>
-    <div class="stat"><div class="val">~22ms</div><div class="label">Inference latency · single GPU</div></div>
-  </div>
+<section class="sec reveal" id="abstract">
+  <h2><span class="num">01</span> Abstract</h2>
+  <p>Multimodal social media data during crisis events presents significant challenges for classification due to noisy visual content, short or ambiguous text, and weak alignment between modalities. Existing multimodal approaches often rely on generic fusion strategies or task-agnostic alignment mechanisms that do not explicitly account for domain-specific semantic structure or feature reliability.</p>
+  <p>We propose <strong>CAFuNet</strong> (<strong>C</strong>ontext-<strong>A</strong>ligned <strong>Fu</strong>sion <strong>Net</strong>work), a multimodal classification architecture for humanitarian event analysis. CAFuNet introduces a <em>dual topic-conditioning mechanism</em> that injects corpus-induced topic representations into both visual and textual encoders, a <em>Context-Gated Calibration (CGC)</em> module that modulates feature magnitudes based on contextual consistency, and a <em>Projected Bilinear Block Fusion (PBBF)</em> head capturing low-rank multiplicative cross-modal interactions.</p>
+  <p>Experiments on <strong>CrisisMMD</strong> and <strong>TSEqD</strong> show macro-F1 gains of <strong>+4.35</strong> and <strong>+2.56</strong> points over strong multimodal baselines, and CAFuNet surpasses zero-shot Gemini 2.0 Flash by over <strong>+28.75 F1 points</strong> — validating that specialized domain-aware architectures outperform general-purpose foundation models in high-stakes humanitarian classification.</p>
 </section>
 
-<hr class="div" />
+<hr class="div"/>
 
 <!-- METHOD -->
-<section id="method">
-  <h2>Method</h2>
-  <p>
-    CAFuNet addresses the <em>semantic reliability gap</em> — where one modality provides critical evidence while the other introduces noise or contradiction — through three synergistic modules applied before and during fusion.
-  </p>
+<section class="sec reveal" id="method">
+  <h2><span class="num">02</span> Method</h2>
+  <p>CAFuNet addresses the <em>semantic reliability gap</em> — where one modality provides critical evidence while the other introduces noise or contradiction — through three tightly coupled modules applied before and during fusion.</p>
 
-  <div class="components">
-    <div class="comp-card">
-      <div class="num">01</div>
+  <div class="method-grid">
+    <div class="mcard">
+      <div class="icon">🗂️</div>
+      <div class="tag">Module 01</div>
       <h4>Dual-Topic Conditioning</h4>
-      <p>Topics are induced from the training corpus via BERTopic and curated by NPMI coherence. Learnable topic embeddings are prepended to both text tokens and visual patch sequences, grounding both encoders in the same domain-specific semantic scaffold from layer one.</p>
+      <p>Topics are induced from the training corpus via BERTopic and curated by NPMI coherence. Learnable embeddings are prepended to both text tokens and visual patch sequences — grounding both encoders in the same domain-specific semantic scaffold from layer one. A Topic Alignment Projector (TAP) enables cross-modal co-adaptation.</p>
     </div>
-    <div class="comp-card">
-      <div class="num">02</div>
+    <div class="mcard">
+      <div class="icon">🎛️</div>
+      <div class="tag">Module 02</div>
       <h4>Context-Gated Calibration</h4>
-      <p>A learnable combination of Gaussian, Sigmoid, and Trapezoidal membership functions computes a per-feature gating score. This multiplicatively modulates feature magnitudes — amplifying reliable signals (G &gt; 0) and suppressing noisy ones (G &lt; 0) before fusion.</p>
+      <p>A learnable combination of Gaussian, Sigmoid, and Trapezoidal membership functions computes per-feature gating scores. This multiplicatively modulates features — amplifying reliable signals (G&gt;0) and suppressing noisy ones (G&lt;0) before fusion. CGC provides a data-driven, non-linear reliability policy crucial for noisy crisis data.</p>
     </div>
-    <div class="comp-card">
-      <div class="num">03</div>
+    <div class="mcard">
+      <div class="icon">🔀</div>
+      <div class="tag">Module 03</div>
       <h4>Projected Bilinear Block Fusion</h4>
-      <p>B parallel interaction blocks project each modality into a lower-dimensional space and compute element-wise products. Block outputs are concatenated to form a rich fused representation capturing diverse, disentangled cross-modal interactions via efficient low-rank approximation.</p>
+      <p>B parallel interaction blocks project each modality into a lower-dimensional space and compute element-wise products (ReLU gated). Block outputs are concatenated to form a rich fused representation capturing diverse, disentangled cross-modal interactions via efficient low-rank bilinear approximation.</p>
     </div>
   </div>
 
-  <h3>Architecture &amp; Analysis Figures</h3>
-  <div class="fig-row">
-    <div class="fig-card">
-      <!-- <img src="assets/architecture.png" alt="Architecture"> -->
-      <div class="ph">assets/architecture.png</div>
-      <div class="cap">Figure 1. Full CAFuNet architecture overview.</div>
+  <h3>Architecture & Analysis Figures</h3>
+  <div class="fig2">
+    <div class="fcard">
+      <img src="assets/fusion1.png" alt="Fusion comparison" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none;min-height:160px;background:var(--blue-l);align-items:center;justify-content:center;color:var(--blue);font-size:.78rem;font-family:'JetBrains Mono',monospace;">assets/fusion1.png</div>
+      <div class="fcap">Figure 2. Fusion strategy comparison — PBBF (90.32% F1) outperforms Early Fusion, Late Fusion, and Cross-Attention.</div>
     </div>
-    <div class="fig-card">
-      <!-- <img src="assets/fusion1.png" alt="Fusion comparison"> -->
-      <div class="ph">assets/fusion1.png</div>
-      <div class="cap">Figure 2. Fusion strategy comparison. PBBF (90.32%) outperforms EF, LF, and Cross-Attention.</div>
+    <div class="fcard">
+      <img src="assets/concepts.png" alt="Topic sensitivity" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none;min-height:160px;background:var(--blue-l);align-items:center;justify-content:center;color:var(--blue);font-size:.78rem;font-family:'JetBrains Mono',monospace;">assets/concepts.png</div>
+      <div class="fcap">Figure 3. Topic count sensitivity N<sub>t</sub>. Performance peaks at N<sub>t</sub> = 10.</div>
     </div>
-    <div class="fig-card">
-      <!-- <img src="assets/concepts.png" alt="Topic sensitivity"> -->
-      <div class="ph">assets/concepts.png</div>
-      <div class="cap">Figure 3. Topic count sensitivity. Performance peaks at N<sub>t</sub> = 10.</div>
+    <div class="fcard">
+      <img src="assets/trinket_plot.png" alt="Hyperparameter sensitivity" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none;min-height:160px;background:var(--blue-l);align-items:center;justify-content:center;color:var(--blue);font-size:.78rem;font-family:'JetBrains Mono',monospace;">assets/trinket_plot.png</div>
+      <div class="fcap">Figure 4. Hyperparameter sensitivity: learning rate, batch size, and training epochs on CrisisMMD.</div>
     </div>
-    <div class="fig-card">
-      <!-- <img src="assets/trinket_plot.png" alt="Hyperparameter sensitivity"> -->
-      <div class="ph">assets/trinket_plot.png</div>
-      <div class="cap">Figure 4. Sensitivity to learning rate, batch size, and training epochs.</div>
+    <div class="fcard">
+      <img src="assets/cc.png" alt="Computational complexity" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none;min-height:160px;background:var(--blue-l);align-items:center;justify-content:center;color:var(--blue);font-size:.78rem;font-family:'JetBrains Mono',monospace;">assets/cc.png</div>
+      <div class="fcap">Figure 5. Computational complexity comparison — CAFuNet (~150M params, ~22ms) vs. baselines and VLMs.</div>
     </div>
   </div>
 </section>
 
-<hr class="div" />
+<hr class="div"/>
 
 <!-- RESULTS -->
-<section id="results">
-  <h2>Results</h2>
-  <p>CAFuNet sets a new state-of-the-art on both benchmarks, outperforming all specialized multimodal baselines and large general-purpose vision-language models.</p>
+<section class="sec reveal" id="results">
+  <h2><span class="num">03</span> Results</h2>
 
-  <h3>Comparison with State-of-the-Art Methods</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="left" rowspan="2">Category</th>
-          <th class="left" rowspan="2">Method</th>
-          <th colspan="5">CrisisMMD</th>
-          <th colspan="5">TSEqD</th>
-        </tr>
-        <tr>
-          <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
-          <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="sh"><td colspan="12">Unimodal</td></tr>
-        <tr><td class="left"></td><td class="left">BERT</td><td>81.25</td><td>82.13</td><td>82.72</td><td>80.22</td><td>82.42</td><td>72.97</td><td>73.42</td><td>73.95</td><td>71.18</td><td>73.81</td></tr>
-        <tr><td class="left"></td><td class="left">ResNet</td><td>81.33</td><td>81.29</td><td>81.98</td><td>81.04</td><td>81.63</td><td>72.32</td><td>72.60</td><td>73.33</td><td>70.94</td><td>73.14</td></tr>
-        <tr><td class="left"></td><td class="left">ViT</td><td>81.30</td><td>81.82</td><td>82.92</td><td>79.77</td><td>81.37</td><td>73.42</td><td>72.64</td><td>73.60</td><td>71.24</td><td>73.16</td></tr>
-
-        <tr class="sh"><td colspan="12">Multimodal</td></tr>
-        <tr><td class="left"></td><td class="left">VisualBERT</td><td>84.05</td><td>82.22</td><td>83.56</td><td>81.89</td><td>82.88</td><td>72.80</td><td>73.81</td><td>75.01</td><td>72.46</td><td>74.55</td></tr>
-        <tr><td class="left"></td><td class="left">SCBD</td><td>80.62</td><td>80.77</td><td>80.52</td><td>78.75</td><td>80.64</td><td>71.34</td><td>71.58</td><td>72.89</td><td>72.39</td><td>72.71</td></tr>
-        <tr><td class="left"></td><td class="left">DMCC</td><td>86.00</td><td>86.95</td><td>86.80</td><td>84.93</td><td>86.72</td><td>78.96</td><td>77.47</td><td>77.38</td><td>74.90</td><td>77.45</td></tr>
-        <tr><td class="left"></td><td class="left">CLMC</td><td>86.53</td><td>86.25</td><td>86.21</td><td>85.18</td><td>86.46</td><td>78.73</td><td>78.50</td><td>77.70</td><td>74.86</td><td>77.70</td></tr>
-        <tr><td class="left"></td><td class="left">MIDLC</td><td>87.42</td><td>87.57</td><td>85.51</td><td>85.34</td><td>86.28</td><td>77.36</td><td>77.45</td><td>76.68</td><td>74.79</td><td>77.14</td></tr>
-        <tr><td class="left"></td><td class="left">MMA</td><td>87.63</td><td>86.16</td><td>88.00</td><td>85.21</td><td>87.00</td><td>78.31</td><td>77.76</td><td>77.68</td><td>75.10</td><td>77.92</td></tr>
-
-        <tr class="ours">
-          <td class="left">Proposed</td><td class="left"><strong>CAFuNet (Ours)</strong></td>
-          <td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td>
-          <td class="best">81.17</td><td class="best">80.86</td><td class="best">81.02</td><td class="best">77.66</td><td class="best">80.57</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t1')">vs. SOTA Methods</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2')">vs. VLMs (Gemini, LLaMA…)</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3')">Cross-Domain</button>
   </div>
-  <p class="tcap">Table 1. All metrics in %. Bold = best. CAFuNet achieves +4.35 mF1 over MMA on CrisisMMD and +2.56 on TSEqD.</p>
 
-  <h3>Ablation Study (CrisisMMD)</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="left">Configuration</th><th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td class="left">Baseline (Simple Fusion)</td><td>84.15</td><td>84.30</td><td>83.95</td><td>78.08</td><td>84.12</td></tr>
-        <tr><td class="left">+ Topic-Guided Prompting (TGP)</td><td>86.93</td><td>87.11</td><td>86.70</td><td>85.07</td><td>86.90</td></tr>
-        <tr><td class="left">+ TGP + CGC</td><td>88.24</td><td>88.45</td><td>88.01</td><td>86.80</td><td>88.23</td></tr>
-        <tr><td class="left">+ TGP + CGC + PBBF</td><td>89.51</td><td>89.68</td><td>89.25</td><td>88.65</td><td>89.46</td></tr>
-        <tr class="ours">
-          <td class="left"><strong>CAFuNet (Full Model)</strong></td>
-          <td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- TAB 1 -->
+  <div class="tab-panel active" id="t1">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" rowspan="2">Category</th>
+            <th class="l" rowspan="2">Method</th>
+            <th colspan="5">CrisisMMD</th>
+            <th colspan="5">TSEqD</th>
+          </tr>
+          <tr>
+            <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+            <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><td colspan="12">Unimodal</td></tr>
+          <tr><td class="l"></td><td class="l">BERT</td><td>81.25</td><td>82.13</td><td>82.72</td><td>80.22</td><td>82.42</td><td>72.97</td><td>73.42</td><td>73.95</td><td>71.18</td><td>73.81</td></tr>
+          <tr><td class="l"></td><td class="l">ResNet</td><td>81.33</td><td>81.29</td><td>81.98</td><td>81.04</td><td>81.63</td><td>72.32</td><td>72.60</td><td>73.33</td><td>70.94</td><td>73.14</td></tr>
+          <tr><td class="l"></td><td class="l">ViT</td><td>81.30</td><td>81.82</td><td>82.92</td><td>79.77</td><td>81.37</td><td>73.42</td><td>72.64</td><td>73.60</td><td>71.24</td><td>73.16</td></tr>
+          <tr class="grp"><td colspan="12">Multimodal</td></tr>
+          <tr><td class="l"></td><td class="l">VisualBERT</td><td>84.05</td><td>82.22</td><td>83.56</td><td>81.89</td><td>82.88</td><td>72.80</td><td>73.81</td><td>75.01</td><td>72.46</td><td>74.55</td></tr>
+          <tr><td class="l"></td><td class="l">SCBD</td><td>80.62</td><td>80.77</td><td>80.52</td><td>78.75</td><td>80.64</td><td>71.34</td><td>71.58</td><td>72.89</td><td>72.39</td><td>72.71</td></tr>
+          <tr><td class="l"></td><td class="l">DMCC</td><td>86.00</td><td>86.95</td><td>86.80</td><td>84.93</td><td>86.72</td><td>78.96</td><td>77.47</td><td>77.38</td><td>74.90</td><td>77.45</td></tr>
+          <tr><td class="l"></td><td class="l">CLMC</td><td>86.53</td><td>86.25</td><td>86.21</td><td>85.18</td><td>86.46</td><td>78.73</td><td>78.50</td><td>77.70</td><td>74.86</td><td>77.70</td></tr>
+          <tr><td class="l"></td><td class="l">MIDLC</td><td>87.42</td><td>87.57</td><td>85.51</td><td>85.34</td><td>86.28</td><td>77.36</td><td>77.45</td><td>76.68</td><td>74.79</td><td>77.14</td></tr>
+          <tr><td class="l"></td><td class="l">MMA</td><td>87.63</td><td>86.16</td><td>88.00</td><td>85.21</td><td>87.00</td><td>78.31</td><td>77.76</td><td>77.68</td><td>75.10</td><td>77.92</td></tr>
+          <tr class="ours"><td class="l">Proposed</td><td class="l">CAFuNet (Ours)</td><td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td><td class="best">81.17</td><td class="best">80.86</td><td class="best">81.02</td><td class="best">77.66</td><td class="best">80.57</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tcap">Table 1. All metrics in %. CAFuNet achieves +4.35 mF1 over MMA on CrisisMMD and +2.56 on TSEqD.</p>
   </div>
-  <p class="tcap">Table 2. Each component contributes incrementally: TGP (+2.78 mF1), CGC (+1.33), PBBF (+1.23), Contrastive Loss (+0.86).</p>
 
-  <h3>Robustness &amp; Efficiency</h3>
-  <p>CAFuNet achieves <strong>90.32 ± 0.20</strong> F1 across five random seeds (vs. MMA: 87.00 ± 0.30), confirming stable, reproducible performance. Under modality degradation (blank images, Gaussian blur, text truncation, up to 20% cross-modal shuffle), CAFuNet consistently leads all baselines and degrades most gracefully — demonstrating that CGC suppresses unreliable signals before fusion rather than propagating noise. At <strong>~150M parameters</strong> and <strong>~22ms</strong> inference (batch 32, single GPU), CAFuNet is far more efficient than autoregressive VLMs (&gt;200ms).</p>
+  <!-- TAB 2 -->
+  <div class="tab-panel" id="t2">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" rowspan="2">Method</th>
+            <th colspan="5">CrisisMMD</th>
+            <th colspan="5">TSEqD</th>
+          </tr>
+          <tr>
+            <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+            <th>Acc</th><th>Prec</th><th>Rec</th><th>mF1</th><th>WF1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><td colspan="11">Gemini 2.0 Flash</td></tr>
+          <tr><td class="l">Zero-shot (k=0)</td><td>63.02</td><td>70.97</td><td>55.04</td><td>59.99</td><td>61.57</td><td>55.77</td><td>62.25</td><td>48.79</td><td>48.17</td><td>54.43</td></tr>
+          <tr><td class="l">Few-shot (k=8)</td><td>66.60</td><td>73.90</td><td>64.40</td><td>58.10</td><td>62.32</td><td>60.22</td><td>67.45</td><td>53.42</td><td>63.43</td><td>67.36</td></tr>
+          <tr><td class="l">Fine-tuned</td><td>74.56</td><td>81.25</td><td>72.52</td><td>64.25</td><td>70.28</td><td>70.33</td><td>73.47</td><td>63.44</td><td>70.27</td><td>71.29</td></tr>
+          <tr class="grp"><td colspan="11">Llama-3.2-Vision-11B</td></tr>
+          <tr><td class="l">Zero-shot (k=0)</td><td>55.51</td><td>52.60</td><td>48.55</td><td>43.42</td><td>49.11</td><td>50.19</td><td>47.09</td><td>47.74</td><td>37.20</td><td>48.38</td></tr>
+          <tr><td class="l">Fine-tuned</td><td>86.75</td><td>72.00</td><td>72.00</td><td>72.00</td><td>85.00</td><td>80.39</td><td>86.43</td><td>57.68</td><td>60.47</td><td>78.33</td></tr>
+          <tr class="grp"><td colspan="11">Qwen2.5-VL-7B</td></tr>
+          <tr><td class="l">Zero-shot (k=0)</td><td>63.85</td><td>67.43</td><td>55.78</td><td>55.16</td><td>58.64</td><td>59.60</td><td>47.08</td><td>47.56</td><td>43.23</td><td>57.32</td></tr>
+          <tr><td class="l">Fine-tuned</td><td>70.91</td><td>72.68</td><td>69.33</td><td>64.60</td><td>65.51</td><td>73.35</td><td>44.00</td><td>47.00</td><td>46.00</td><td>71.00</td></tr>
+          <tr class="ours"><td class="l">CAFuNet (Ours)</td><td class="best">90.38</td><td class="best">90.53</td><td class="best">89.81</td><td class="best">89.69</td><td class="best">90.32</td><td class="best">81.17</td><td class="best">80.86</td><td class="best">81.02</td><td class="best">77.66</td><td class="best">80.57</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tcap">Table 2. CAFuNet surpasses zero-shot Gemini 2.0 Flash by +28.75 F1 on CrisisMMD — specialized architectures outperform prompted foundation models in high-stakes domains.</p>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="tab-panel" id="t3">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" rowspan="2">Method</th>
+            <th colspan="5">MVSA-Single (Sentiment)</th>
+            <th colspan="5">Facebook Hateful Memes</th>
+          </tr>
+          <tr>
+            <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+            <th>Acc</th><th>m-Prec</th><th>m-Rec</th><th>mF1</th><th>WF1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="l">VisualBERT</td><td>72.09</td><td>63.68</td><td>61.99</td><td>61.85</td><td>71.60</td><td>56.80</td><td>62.40</td><td>56.80</td><td>51.30</td><td>51.30</td></tr>
+          <tr><td class="l">DMCC</td><td>73.31</td><td>69.83</td><td>54.83</td><td>56.32</td><td>70.15</td><td>57.40</td><td>61.48</td><td>57.40</td><td>53.25</td><td>53.25</td></tr>
+          <tr><td class="l">MMA</td><td>71.10</td><td>61.48</td><td>65.44</td><td>62.84</td><td>72.04</td><td>56.80</td><td>63.79</td><td>56.80</td><td>50.53</td><td>50.53</td></tr>
+          <tr class="ours"><td class="l">CAFuNet (Ours)</td><td class="best">79.96</td><td class="best">76.63</td><td class="best">74.65</td><td class="best">75.22</td><td class="best">79.71</td><td class="best">60.40</td><td class="best">61.65</td><td class="best">60.40</td><td class="best">59.31</td><td class="best">59.31</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tcap">Table 3. Cross-domain generalization. CAFuNet achieves +18.90% macro-F1 over DMCC on MVSA-Single — context-aligned conditioning learns domain-agnostic representations.</p>
+  </div>
+
+  <!-- ABLATION -->
+  <h3>Ablation Study</h3>
+  <p>Each component contributes incrementally — Topic-Guided Prompting gives the largest single gain (+2.78 mF1), confirming that shared semantic context pre-fusion is the most critical design decision.</p>
+
+  <div class="abl-bars" id="ablBars">
+    <div class="abl-row">
+      <div class="abl-label">Baseline (Simple Fusion)</div>
+      <div class="abl-bar-wrap"><div class="abl-bar blue" style="width:0%" data-w="86.8">78.08</div></div>
+      <div class="abl-val">78.08</div>
+    </div>
+    <div class="abl-row">
+      <div class="abl-label">+ Topic-Guided Prompting</div>
+      <div class="abl-bar-wrap"><div class="abl-bar blue" style="width:0%" data-w="94.4">85.07</div></div>
+      <div class="abl-val">85.07 <span style="color:var(--green);font-size:.7rem;">+2.78</span></div>
+    </div>
+    <div class="abl-row">
+      <div class="abl-label">+ CGC</div>
+      <div class="abl-bar-wrap"><div class="abl-bar blue" style="width:0%" data-w="96.2">86.80</div></div>
+      <div class="abl-val">86.80 <span style="color:var(--green);font-size:.7rem;">+1.33</span></div>
+    </div>
+    <div class="abl-row">
+      <div class="abl-label">+ PBBF</div>
+      <div class="abl-bar-wrap"><div class="abl-bar blue" style="width:0%" data-w="98.2">88.65</div></div>
+      <div class="abl-val">88.65 <span style="color:var(--green);font-size:.7rem;">+1.23</span></div>
+    </div>
+    <div class="abl-row">
+      <div class="abl-label"><strong>CAFuNet (Full)</strong></div>
+      <div class="abl-bar-wrap"><div class="abl-bar gold" style="width:0%" data-w="100">89.69</div></div>
+      <div class="abl-val" style="color:var(--gold)"><strong>89.69</strong> <span style="color:var(--green);font-size:.7rem;">+0.86</span></div>
+    </div>
+  </div>
+
+  <!-- LEAVE ONE OUT -->
+  <h3>Leave-One-Event-Out Generalization</h3>
+  <p>Trained on 6 CrisisMMD events, tested on the 7th — CAFuNet consistently generalizes to unseen disaster types.</p>
+  <div class="leaveout-grid">
+    <div class="lo-card"><div class="event">Hurricane Maria</div><div class="f1">88.59%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">Hurricane Irma</div><div class="f1">89.17%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">California Wildfires</div><div class="f1">81.47%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">Iraq-Iran Earthquake</div><div class="f1">82.67%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">Mexico Earthquake</div><div class="f1">75.66%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">Hurricane Harvey</div><div class="f1">88.40%</div><div class="label">mF1</div></div>
+    <div class="lo-card"><div class="event">Sri Lanka Floods</div><div class="f1">82.94%</div><div class="label">mF1</div></div>
+  </div>
 </section>
 
-<hr class="div" />
+<hr class="div"/>
+
+<!-- QUALITATIVE -->
+<section class="sec reveal" id="qualitative">
+  <h2><span class="num">04</span> Qualitative Analysis</h2>
+  <p>Four representative samples illustrating CAFuNet's strengths and one identified failure mode — <em>visual dominance</em> — where strong visual cues override neutral text.</p>
+
+  <div class="qual-grid">
+    <div class="qual-card">
+      <img src="assets/figures/destroyed_road.jpg" alt="Sample 1" onerror="this.style.height='120px';this.style.background='#fee2e2';this.style.display='block'"/>
+      <div class="qual-body">
+        <span class="gt infra">Infra &amp; Utility Damage</span>
+        <p>Destroyed road near hurricane-damaged bridge. Strong concordant visual+text — most models predict correctly.</p>
+        <div class="result">
+          <span class="chip correct">CAFuNet ✓</span>
+          <span class="chip correct">MMA ✓</span>
+          <span class="chip wrong">VisualBERT ✗</span>
+        </div>
+      </div>
+    </div>
+    <div class="qual-card">
+      <img src="assets/figures/fundraiser_sport.jpg" alt="Sample 2" onerror="this.style.height='120px';this.style.background='#dbeafe';this.style.display='block'"/>
+      <div class="qual-body">
+        <span class="gt rescue">Rescue / Donation Effort</span>
+        <p>Fundraiser post for Harvey relief with sports event imagery. CAFuNet correctly links visual cues to textual fundraising triggers.</p>
+        <div class="result">
+          <span class="chip correct">CAFuNet ✓</span>
+          <span class="chip correct">MMA ✓</span>
+          <span class="chip wrong">MANN ✗</span>
+        </div>
+      </div>
+    </div>
+    <div class="qual-card">
+      <img src="assets/figures/weather_map.png" alt="Sample 3" onerror="this.style.height='120px';this.style.background='#fef3c7';this.style.display='block'"/>
+      <div class="qual-body">
+        <span class="gt other">Other Relevant Info</span>
+        <p>Weather map — non-actionable informational post. Most baselines misclassify as damage. CAFuNet's context-aware priors correctly identify it.</p>
+        <div class="result">
+          <span class="chip correct">CAFuNet ✓</span>
+          <span class="chip wrong">MMA ✗</span>
+          <span class="chip wrong">DMCC ✗</span>
+        </div>
+      </div>
+    </div>
+    <div class="qual-card">
+      <img src="assets/figures/why_irrelevant.jpg" alt="Sample 4" onerror="this.style.height='120px';this.style.background='#dcfce7';this.style.display='block'"/>
+      <div class="qual-body">
+        <span class="gt not">Not Humanitarian</span>
+        <p><em>Visual dominance failure:</em> Storm imagery overrides neutral conversational text ("Why? It's the Season."). CAFuNet mispredicts — a clear direction for future work.</p>
+        <div class="result">
+          <span class="chip wrong">CAFuNet ✗</span>
+          <span class="chip correct">DMCC ✓</span>
+          <span class="chip correct">CLMC ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
 
 <!-- BIBTEX -->
-<section id="bibtex">
-  <h2>BibTeX</h2>
-  <div class="bibtex-block" id="bib">
-    <button class="copy-btn" onclick="copyBib()">Copy</button>@misc{dar2025cafunet,
-  title     = {Context-Aligned Topic Conditioning and Calibrated Fusion
-               for Multimodal Crisis Informatics},
-  author    = {Shahid Shafi Dar and Mihir Kanchan Karandikar and
+<section class="sec reveal" id="bibtex">
+  <h2><span class="num">05</span> BibTeX</h2>
+  <div class="bib" id="bibcode"><button class="copy-btn" onclick="copyBib()">Copy</button><span class="kw">@misc</span>{<span class="val">dar2025cafunet</span>,
+  <span class="kw">title</span>     = {<span class="str">Context-Aligned Topic Conditioning and Calibrated
+               Fusion for Multimodal Crisis Informatics</span>},
+  <span class="kw">author</span>    = {<span class="str">Shahid Shafi Dar and Mihir Kanchan Karandikar and
                Chandravardhan Singh Raghaw and Pranjal Pandey and
-               Nagendra Kumar},
+               Nagendra Kumar</span>},
+  <span class="kw">year</span>      = {<span class="val">2025</span>},
+  <span class="kw">eprint</span>    = {<span class="val">2410.XXXXX</span>},
+  <span class="kw">archivePrefix</span> = {<span class="str">arXiv</span>},
+  <span class="kw">primaryClass</span>  = {<span class="str">cs.CL</span>},
+  <span class="kw">url</span>       = {<span class="str">https://arxiv.org/abs/2410.XXXXX</span>},
+}</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p style="margin-bottom:.4rem;">
+    <a href="https://shahid-135.github.io">Project Page</a> &nbsp;·&nbsp;
+    <a href="#">Paper</a> &nbsp;·&nbsp;
+    <a href="https://github.com/Shahid-135/Shahid-135.github.io">Code</a>
+  </p>
+  Built with <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> ·
+  Licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> ·
+  IIT Indore &amp; IIIT Bhagalpur · 2025
+</footer>
+
+<script>
+/* SCROLL PROGRESS */
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement;
+  const pct=(s.scrollTop/(s.scrollHeight-s.clientHeight))*100;
+  document.getElementById('prog').style.width=pct+'%';
+});
+
+/* REVEAL ON SCROLL */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* TABS */
+function switchTab(btn,id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ABLATION BARS ANIMATE */
+const ablObs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.abl-bar').forEach(bar=>{
+      bar.style.width=bar.dataset.w+'%';
+    });
+    ablObs.disconnect();
+  }
+},{threshold:.3});
+ablObs.observe(document.getElementById('ablBars'));
+
+/* COPY BIBTEX */
+function copyBib(){
+  const text=`@misc{dar2025cafunet,
+  title     = {Context-Aligned Topic Conditioning and Calibrated Fusion for Multimodal Crisis Informatics},
+  author    = {Shahid Shafi Dar and Mihir Kanchan Karandikar and Chandravardhan Singh Raghaw and Pranjal Pandey and Nagendra Kumar},
   year      = {2025},
   eprint    = {2410.XXXXX},
   archivePrefix = {arXiv},
   primaryClass  = {cs.CL},
   url       = {https://arxiv.org/abs/2410.XXXXX},
-}</div>
-</section>
-
-<footer>
-  Built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
-  Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
-  · IIT Indore &amp; IIIT Bhagalpur, 2025.
-</footer>
-
-<script>
-  function copyBib() {
-    const raw = document.getElementById('bib').innerText.replace('Copy','').trim();
-    navigator.clipboard.writeText(raw).then(() => {
-      const btn = document.querySelector('.copy-btn');
-      btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy', 2200);
-    });
-  }
+}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',2200);
+  });
+}
 </script>
 </body>
 </html>
