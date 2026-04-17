@@ -1,1 +1,0 @@
-from .cirsis_mmd_vision_text_pipeline.model import CrisisMMDVisionTextPipelineModel
